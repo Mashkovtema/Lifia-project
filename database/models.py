@@ -23,6 +23,22 @@ class AdminReminds(Base):
     comment: Mapped[str] = mapped_column(String, default='---')
 
 
+class AiToken(Base):
+    __tablename__ = 'AiToken'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    token: Mapped[str] = mapped_column(String, default='---')
+
+
+class Tarifs(Base):
+    __tablename__ = 'Tarifs'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    tarif_type: Mapped[str] = mapped_column(String, default='---')
+    name: Mapped[str] = mapped_column(String, default='---')
+    cost: Mapped[int] = mapped_column(Integer, default=0)
+    message_cnt: Mapped[int] = mapped_column(Integer, default=0)
+    photo: Mapped[int]= mapped_column(String, default='---')
+
+
 
 async def async_main():
     async with engine.begin() as conn:

@@ -69,4 +69,47 @@ async def add_sticker_to_category(category: str) -> str:
         return '😴 Отдохнуть'
 
 
+async def validate_int_data(data) -> bool:
+    """Проверка на численные данные"""
+    logging.info('validate_int_data')
+    try:
+        cost = int(data)
+        if cost > 0:
+            return True
+        else:
+            return False
+    except:
+        return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

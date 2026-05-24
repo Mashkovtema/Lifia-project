@@ -13,7 +13,7 @@ from database.models import async_main
 from config_data.config_data import Config, load_config
 
 from handlers import start_handler
-from handlers.admin_handlers import reminders_handler
+from handlers.admin_handlers import reminders_handler, ai_token_handler, tarifs_handler
 
 # Инициализируем logger
 logger = logging.getLogger(__name__)
@@ -45,6 +45,8 @@ async def main():
 
     # Админ
     dp.include_router(reminders_handler.router)
+    dp.include_router(ai_token_handler.router)
+    dp.include_router(tarifs_handler.router)
 
     # Пользователь
 
