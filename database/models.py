@@ -39,7 +39,50 @@ class Tarifs(Base):
     photo: Mapped[int]= mapped_column(String, default='---')
 
 
+class Reviews(Base):
+    __tablename__ = 'Reviews'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(Integer, default=0)
+    username: Mapped[str] = mapped_column(String, default='---')
+    grade: Mapped[int] = mapped_column(Integer, default=0)
+    comment: Mapped[str] = mapped_column(String, default='---')
+    moderation: Mapped[bool] = mapped_column(Boolean, default=False)
+
+
 
 async def async_main():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+    async with async_session() as session:
+        review_1 = Reviews(
+            user_id=24234234234,
+            username='123123',
+            grade=3,
+            comment='Круто клсано'
+        )
+        review_2 = Reviews(
+            user_id=24234234234,
+            username='16666663',
+            grade=5,
+            comment='Круто'
+        )
+        review_3 = Reviews(
+            user_id=24234234234,
+            username='12312fggdfgsdgf3',
+            grade=1,
+            comment='Круто клсано fgdh fdghfdh'
+        )
+        review_4 = Reviews(
+            user_id=24234234234,
+            username='123123||',
+            grade=2,
+            comment=' клсано'
+        )
+        session.add(review_1)
+        session.add(review_2)
+        session.add(review_3)
+        session.add(review_4)
+        await session.commit()
+
+

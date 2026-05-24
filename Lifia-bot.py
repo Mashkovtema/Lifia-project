@@ -13,7 +13,7 @@ from database.models import async_main
 from config_data.config_data import Config, load_config
 
 from handlers import start_handler
-from handlers.admin_handlers import reminders_handler, ai_token_handler, tarifs_handler
+from handlers.admin_handlers import reminders_handler, ai_token_handler, tarifs_handler, reviews_hander
 
 # Инициализируем logger
 logger = logging.getLogger(__name__)
@@ -24,8 +24,8 @@ async def main():
     logging.basicConfig(
         level=logging.INFO,
 
-        filename="py_log.log",
-        filemode='w',
+        # filename="py_log.log",
+        # filemode='w',
         format='%(filename)s:%(lineno)d #%(levelname)-8s '
                '[%(asctime)s] - %(name)s - %(message)s')
 
@@ -47,6 +47,7 @@ async def main():
     dp.include_router(reminders_handler.router)
     dp.include_router(ai_token_handler.router)
     dp.include_router(tarifs_handler.router)
+    dp.include_router(reviews_hander.router)
 
     # Пользователь
 

@@ -1,4 +1,4 @@
-from aiogram import Router, types, F, flags
+from aiogram import Router, types, F
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup, default_state
 from aiogram.filters import StateFilter

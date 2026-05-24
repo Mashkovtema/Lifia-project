@@ -9,9 +9,11 @@ async def main_buttons():
     btn_4 = types.KeyboardButton(text='Редактировать тарифы ⚙️')
     btn_5 = types.KeyboardButton(text='Выгрузка пользователей 👥')
     btn_6 = types.KeyboardButton(text='Обучение модели 🤖')
-    btn_7 = types.KeyboardButton(text='Списки задач 📋')
+    btn_7 = types.KeyboardButton(text='Модерация отзывов ⭐️')
+    btn_8 = types.KeyboardButton(text='Списки задач 📋')
     markup.keyboard.append([btn_1, btn_2])
     markup.keyboard.append([btn_3, btn_4])
     markup.keyboard.append([btn_5, btn_6])
     markup.keyboard.append([btn_7])
+    markup.keyboard.append([btn_8])
     return markup

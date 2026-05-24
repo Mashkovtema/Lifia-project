@@ -1,4 +1,4 @@
-from database.models import async_session, AdminReminds, AiToken, Tarifs
+from database.models import async_session, AdminReminds, AiToken, Tarifs, Reviews
 from sqlalchemy import select, or_, and_, delete, func, case, cast, Integer, String
 from passlib.context import CryptContext
 import logging
@@ -119,6 +119,33 @@ async def update_tarif_data(tarif_type: str, parametr: str, value: str) -> None:
         await session.commit()
 
 
+async def get_reviews_for_moderation() -> list:
+    """Получение отзывов для модерации"""
+    logging.info('get_reviews_for_moderation')
+    async with async_session() as session:
+        reviews = await session.scalars(select(Reviews).where(Reviews.moderation == False))
+        if reviews:
+            return reviews.all()
+        else:
+            return []
+
+
+async def confirm_review(index: int) -> None:
+    """Подтверждение отзыва"""
+    logging.info('confirm_review')
+    async with async_session() as session:
+        review = await session.scalar(select(Reviews).where(Reviews.id == index))
+        review.moderation = True
+        await session.commit()
+
+
+async def delete_review(index: int) -> None:
+    """Удаление отзыва"""
+    logging.info('delete_review')
+    async with async_session() as session:
+        review = await session.scalar(select(Reviews).where(Reviews.id == index))
+        await session.delete(review)
+        await session.commit()
 
 
 
