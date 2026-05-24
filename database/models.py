@@ -42,11 +42,21 @@ class Tarifs(Base):
 class Reviews(Base):
     __tablename__ = 'Reviews'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    user_id: Mapped[int] = mapped_column(Integer, default=0)
+    user_id: Mapped[int] = mapped_column(BigInteger, default=0)
     username: Mapped[str] = mapped_column(String, default='---')
     grade: Mapped[int] = mapped_column(Integer, default=0)
     comment: Mapped[str] = mapped_column(String, default='---')
     moderation: Mapped[bool] = mapped_column(Boolean, default=False)
+
+
+class Challenges(Base):
+    __tablename__ = 'Challenges'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    category: Mapped[str] = mapped_column(String, default='---')
+    name: Mapped[str] = mapped_column(String, default='---')
+    bonus_cnt: Mapped[int] = mapped_column(Integer, default='---')
+    week: Mapped[int] = mapped_column(Integer, default='---')
+
 
 
 

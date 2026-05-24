@@ -1,4 +1,4 @@
-from database.models import async_session, AdminReminds, AiToken, Tarifs, Reviews
+from database.models import async_session, AdminReminds, AiToken, Tarifs, Reviews, Challenges
 from sqlalchemy import select, or_, and_, delete, func, case, cast, Integer, String
 from passlib.context import CryptContext
 import logging
@@ -148,9 +148,46 @@ async def delete_review(index: int) -> None:
         await session.commit()
 
 
+async def get_chelenges_by_category(category: str, week: int) -> list:
+    """Получение списка задач по категории"""
+    logging.info('get_chelenges_by_category')
+    async with async_session() as session:
+        challenges_data = await session.scalars(select(Challenges).where(Challenges.category == category, Challenges.week == week))
+        if challenges_data:
+            return challenges_data.all()
+        else:
+            return []
 
 
+async def add_new_challenge(challenge_data: dict) -> None:
+    """Добавление нового задания"""
+    logging.info('add_new_challenge')
+    async with async_session() as session:
+        new_challenge = Challenges(
+            category=challenge_data['category'],
+            name=challenge_data['name'],
+            bonus_cnt=challenge_data['bonus_cnt'],
+            week=challenge_data['week']
+        )
+        session.add(new_challenge)
+        await session.commit()
 
+
+async def get_challenge_by_index(index: int) -> dict:
+    """Получение задачи по индексу"""
+    logging.info('get_challenge_by_index')
+    async with async_session() as session:
+        challenge = await session.scalar(select(Challenges).where(Challenges.id == index))
+        return challenge.__dict__
+
+
+async def delete_challenge(index: str) -> None:
+    """Удаление Задачи"""
+    logging.info('delete_challenge')
+    async with async_session() as session:
+        challenge = await session.scalar(select(Challenges).where(Challenges.id == index))
+        await session.delete(challenge)
+        await session.commit()
 
 
 

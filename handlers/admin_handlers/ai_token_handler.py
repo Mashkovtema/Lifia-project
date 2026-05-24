@@ -27,7 +27,7 @@ async def ai_token(message: types.Message, state: FSMContext):
     token = await admin_requests.get_token()
     markup = await ai_token_keyboard.change_token_button()
     text = (f'Текущий ключ к ии моделям: {token}\n\n'
-            f'Нажмите на кнопку для смены ключа👇')
+            f'Нажмите на кнопку для смены ключа 👇')
     await message.answer(text=text, reply_markup=markup)
     await state.clear()
 
@@ -39,7 +39,7 @@ async def back_to_ai_token(callback: types.CallbackQuery, state: FSMContext):
     token = await admin_requests.get_token()
     markup = await ai_token_keyboard.change_token_button()
     text = (f'Текущий ключ к ии моделям: {token}\n\n'
-            f'Нажмите на кнопку для смены ключа👇')
+            f'Нажмите на кнопку для смены ключа 👇')
     await callback.message.edit_text(text=text, reply_markup=markup)
     await state.clear()
 
