@@ -1,4 +1,4 @@
-from database.models import async_session, AdminReminds, AiToken, Tarifs, Reviews, Challenges
+from database.models import async_session, AdminReminds, AiToken, Tarifs, Reviews, Challenges, Users
 from sqlalchemy import select, or_, and_, delete, func, case, cast, Integer, String
 from passlib.context import CryptContext
 import logging
@@ -188,6 +188,23 @@ async def delete_challenge(index: str) -> None:
         challenge = await session.scalar(select(Challenges).where(Challenges.id == index))
         await session.delete(challenge)
         await session.commit()
+
+
+async def get_user_ids_for_newsletter(type: str) -> list:
+    """Получение спсика пользователей для рассылки"""
+    logging.info('get_user_ids_for_newsletter')
+    async with async_session() as session:
+        if type == 'not-mom':
+            users = await session.scalars(select(Users.user_id).where(Users.mom_or_not == False))
+        elif type == 'mom':
+            users = await session.scalars(select(Users.user_id).where(Users.mom_or_not == True))
+        else:
+            users = await session.scalars(select(Users.user_id))
+
+        if users:
+            return users.all()
+        else:
+            return []
 
 
 

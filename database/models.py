@@ -12,6 +12,19 @@ class Base(AsyncAttrs, DeclarativeBase):
     pass
 
 
+class Users(Base):
+    __tablename__ = 'Users'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, default=0)
+    username: Mapped[str] = mapped_column(String, default='---')
+    name: Mapped[str] = mapped_column(String, default='---')
+    week: Mapped[int] = mapped_column(Integer, default=1)
+    mom_or_not: Mapped[bool] = mapped_column(Boolean, default=True)
+    time_zone: Mapped[int] = mapped_column(Integer, default=0) # Разница с Москвой
+
+
+
+
 class AdminReminds(Base):
     __tablename__ = 'AdminReminds'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -65,6 +78,15 @@ async def async_main():
         await conn.run_sync(Base.metadata.create_all)
 
     async with async_session() as session:
+        user_1 = Users(
+            user_id=1067420041
+        )
+        user_2 = Users(
+            user_id=1231312
+        )
+        session.add(user_1)
+        session.add(user_2)
+
         review_1 = Reviews(
             user_id=24234234234,
             username='123123',
