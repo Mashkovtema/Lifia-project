@@ -19,7 +19,10 @@ class Users(Base):
     username: Mapped[str] = mapped_column(String, default='---')
     name: Mapped[str] = mapped_column(String, default='---')
     week: Mapped[int] = mapped_column(Integer, default=1)
+    bonus_cnt: Mapped[int] = mapped_column(Integer, default=0)
     mom_or_not: Mapped[bool] = mapped_column(Boolean, default=True)
+    subscription_type: Mapped[str] = mapped_column(String, default='---') # pro/default
+    subscription_date_end: Mapped[str] = mapped_column(String, default='---')
     time_zone: Mapped[int] = mapped_column(Integer, default=0) # Разница с Москвой
 
 
@@ -45,7 +48,7 @@ class AiToken(Base):
 class Tarifs(Base):
     __tablename__ = 'Tarifs'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    tarif_type: Mapped[str] = mapped_column(String, default='---')
+    tarif_type: Mapped[str] = mapped_column(String, default='---') # standart/pro
     name: Mapped[str] = mapped_column(String, default='---')
     cost: Mapped[int] = mapped_column(Integer, default=0)
     message_cnt: Mapped[int] = mapped_column(Integer, default=0)
@@ -78,15 +81,6 @@ async def async_main():
         await conn.run_sync(Base.metadata.create_all)
 
     async with async_session() as session:
-        user_1 = Users(
-            user_id=1067420041
-        )
-        user_2 = Users(
-            user_id=1231312
-        )
-        session.add(user_1)
-        session.add(user_2)
-
         review_1 = Reviews(
             user_id=24234234234,
             username='123123',

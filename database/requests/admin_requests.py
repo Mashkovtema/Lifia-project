@@ -207,6 +207,16 @@ async def get_user_ids_for_newsletter(type: str) -> list:
             return []
 
 
+async def get_all_users_data() -> list:
+    """Получение нформации о пользователях"""
+    logging.info('get_all_users_data')
+    async with async_session() as session:
+        users_data = await session.scalars(select(Users))
+        if users_data:
+            return users_data.all()
+        else:
+            return []
+
 
 
 
