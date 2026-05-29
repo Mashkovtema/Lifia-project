@@ -1,7 +1,8 @@
-from database.models import async_session, AdminReminds, AiToken, Tarifs, Reviews, Challenges, Users
+from database.models import async_session, AdminReminds, AiToken, Tarifs, Reviews, Challenges, Users, WeeksTextsBer, WeeksTextsMom
 from sqlalchemy import select, or_, and_, delete, func, case, cast, Integer, String
 from passlib.context import CryptContext
 import logging
+import openpyxl
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -216,6 +217,54 @@ async def get_all_users_data() -> list:
             return users_data.all()
         else:
             return []
+
+
+async def update_weeks_text(file_in_memory, type: str) -> None:
+    """Обновление текстов по дням беременности"""
+    logging.info('update_weeks_text')
+    async with async_session() as session:
+        if type == 'Беременные':
+            await session.execute(delete(WeeksTextsBer))
+            await session.commit()
+
+            workbook = openpyxl.load_workbook(file_in_memory)
+
+            sheet = workbook.active
+
+            for i in range(2, sheet.max_row + 1):
+                day_data = sheet[f'A{i}'].value
+                text_data = sheet[f'D{i}'].value
+
+                new_week_text_data = WeeksTextsBer(
+                    day=day_data,
+                    text=text_data
+                )
+                session.add(new_week_text_data)
+
+            await session.commit()
+
+        else:
+            await session.execute(delete(WeeksTextsMom))
+            await session.commit()
+
+            workbook = openpyxl.load_workbook(file_in_memory)
+
+            sheet = workbook.active
+
+            for i in range(2, sheet.max_row + 1):
+                day_data = sheet[f'A{i}'].value
+                text_data = sheet[f'D{i}'].value
+
+                new_week_text_data = WeeksTextsMom(
+                    day=day_data,
+                    text=text_data
+                )
+                session.add(new_week_text_data)
+
+            await session.commit()
+
+
+
 
 
 

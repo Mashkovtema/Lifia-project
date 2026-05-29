@@ -15,6 +15,7 @@ from config_data.config_data import Config, load_config
 from handlers import start_handler
 from handlers.admin_handlers import (reminders_handler, ai_token_handler, tarifs_handler, reviews_hander,
                                      ai_study_handler, users_handler, chelenges_handler, mail_handler)
+from handlers.user_handlers import reviews_handler
 
 # Инициализируем logger
 logger = logging.getLogger(__name__)
@@ -25,8 +26,8 @@ async def main():
     logging.basicConfig(
         level=logging.INFO,
 
-        # filename="py_log.log",
-        # filemode='w',
+        filename="py_log.log",
+        filemode='w',
         format='%(filename)s:%(lineno)d #%(levelname)-8s '
                '[%(asctime)s] - %(name)s - %(message)s')
 
@@ -55,6 +56,7 @@ async def main():
     dp.include_router(chelenges_handler.router)
 
     # Пользователь
+    dp.include_router(reviews_handler.router)
 
 
     await on_startup_notify(bot=bot)

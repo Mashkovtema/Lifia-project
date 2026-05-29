@@ -13,3 +13,11 @@ async def back_button():
     btn = types.InlineKeyboardButton(text='Назад', callback_data='back-to-ai-token-admin', style='danger')
     markup.inline_keyboard.append([btn])
     return markup
+
+
+async def file_type_buttons():
+    markup = types.InlineKeyboardMarkup(inline_keyboard=[])
+    btn_1 = types.InlineKeyboardButton(text='Для беременных', callback_data=f'select-file-type_Беременные')
+    btn_2 = types.InlineKeyboardButton(text='Для родивших', callback_data='select-file-type_Родившие')
+    markup.inline_keyboard.append([btn_1, btn_2])
+    return markup

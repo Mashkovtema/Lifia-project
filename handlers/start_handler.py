@@ -140,19 +140,22 @@ async def select_date(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data()
 
     state_data = await state.get_data()
-    week_cnt = await utils.calculate_week_ceil(year, month, day)
-    if week_cnt == -1:
+    day_cnt, week = await utils.calculate_days(year, month, day)
+
+    if day_cnt == -1:
         await callback.answer('Выбрана дата в будущем, измените выбор ❌')
+    elif day_cnt > 280:
+        await callback.message.edit_text('Выбрана некорректная дата, попробуйте еще раз ❌')
     else:
         markup = await start_keyboard.troubles_buttons(state_data['mom_or_not'])
         if state_data['mom_or_not']:
-            text = f'Текст для мам, малышу {week_cnt} недель'
+            text = await user_requests.get_text_by_days_cnt(day_cnt, 'mom')
         else:
-            text = (f'💜 Сейчас у тебя {week_cnt}-я неделя беременности\n\n'
-                    f'👶 Малыш уже слышит звуки вокруг и реагирует на них — он чувствует тебя.\n'
-                    f'🤍 На этом сроке часто бывает усталость и перепады настроения. Это нормально — твой организм делает огромную работу.')
+            text = await user_requests.get_text_by_days_cnt(day_cnt, 'not-mom')
+
         await callback.message.edit_text(text=text, reply_markup=markup)
-        await state.update_data(week=week_cnt)
+        await state.update_data(week=week)
+        await state.update_data(day_cnt=day_cnt)
 
 
 @router.callback_query(F.data.startswith('select-mom-trouble-start_'))

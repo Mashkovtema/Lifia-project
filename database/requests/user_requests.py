@@ -1,4 +1,4 @@
-from database.models import async_session, Users, Tarifs
+from database.models import async_session, Users, Tarifs, WeeksTextsBer, WeeksTextsMom, Reviews
 from sqlalchemy import select, or_, and_, delete, func, case, cast, Integer, String
 from datetime import datetime, timedelta
 import logging
@@ -43,6 +43,68 @@ async def add_new_user(data: dict, user_id: int, username: str) -> None:
         )
         session.add(new_user)
         await session.commit()
+
+
+async def get_text_by_days_cnt(days_cnt: int, type: str) -> str:
+    """Получение текста в зависимости от дня беременности"""
+    logging.info('get_text_by_days_cnt')
+    async with async_session() as session:
+        if type == 'mom':
+            text = await session.scalar(select(WeeksTextsMom.text).where(WeeksTextsMom.day == days_cnt))
+            return text
+        else:
+            text = await session.scalar(select(WeeksTextsBer.text).where(WeeksTextsBer.day == days_cnt))
+            return text
+
+
+async def select_reviews_to_watch() -> list:
+    """Получение отзывово для просмотра"""
+    logging.info('select_reviews_to_watch')
+    async with async_session() as session:
+        reviews_data = await session.scalars(select(Reviews).where(Reviews.moderation == True))
+        if reviews_data:
+            reviews_data = reviews_data.all()
+            return reviews_data[::-1]
+        else:
+            return []
+
+
+async def check_user_review(user_id: int) -> bool:
+    """Проверка на то, оставил ли пользователь отзыв"""
+    logging.info('check_user_review')
+    async with async_session() as session:
+        check = await session.scalar(select(Reviews).where(Reviews.user_id == user_id))
+        if check:
+            return True
+        else:
+            return False
+
+
+async def add_new_review(user_id: int, username: str, review_data: dict) -> None:
+    """Добавление нового отзыва"""
+    logging.info('add_new_review')
+    async with async_session() as session:
+        new_review = Reviews(
+            user_id=user_id,
+            username=username,
+            grade=review_data['grade'],
+            comment=review_data['comment']
+        )
+        session.add(new_review)
+        await session.commit()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

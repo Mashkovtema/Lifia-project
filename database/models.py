@@ -26,6 +26,18 @@ class Users(Base):
     time_zone: Mapped[int] = mapped_column(Integer, default=0) # Разница с Москвой
 
 
+class WeeksTextsBer(Base):
+    __tablename__ = 'WeeksTextsBer'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    day: Mapped[int] = mapped_column(Integer, default=1)
+    text: Mapped[str] = mapped_column(String, default='---')
+
+
+class WeeksTextsMom(Base):
+    __tablename__ = 'WeeksTextsMom'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    day: Mapped[int] = mapped_column(Integer, default=1)
+    text: Mapped[str] = mapped_column(String, default='---')
 
 
 class AdminReminds(Base):

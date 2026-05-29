@@ -133,7 +133,7 @@ async def create_users_table(users_data: list) -> None:
     workbook.save('Пользователи.xlsx')
 
 
-async def calculate_week_ceil(year: int, month: int, day: int) -> int:
+async def calculate_days(year: int, month: int, day: int):
     """Подсчет недель с округлением вверх (включая текущую неполную неделю)"""
     logging.info(f'calculate_week_ceil: date={year}-{month}-{day}')
 
@@ -142,16 +142,17 @@ async def calculate_week_ceil(year: int, month: int, day: int) -> int:
 
     if target_date > today:
         logging.warning(f'Target date {target_date} is in the future')
-        return -1
+        return -1, -1
 
-    # Calculate days difference
+    if target_date == today:
+        return 1, 0
+
     days_diff = (today - target_date).days
 
-    # Calculate weeks with ceiling (round up)
-    weeks = (days_diff + 6) // 7  # Integer division with ceiling
+    weeks = (days_diff + 6) // 7
 
     logging.info(f'Days difference: {days_diff}, Weeks (ceil): {weeks}')
-    return weeks
+    return days_diff, weeks
 
 
 async def get_text_by_type(mom_or_not: bool) -> str:
