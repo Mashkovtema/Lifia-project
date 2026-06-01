@@ -15,7 +15,7 @@ from config_data.config_data import Config, load_config
 from handlers import start_handler
 from handlers.admin_handlers import (reminders_handler, ai_token_handler, tarifs_handler, reviews_hander,
                                      ai_study_handler, users_handler, chelenges_handler, mail_handler)
-from handlers.user_handlers import reviews_handler
+from handlers.user_handlers import reviews_handler, preparation_recovery_handler
 
 # Инициализируем logger
 logger = logging.getLogger(__name__)
@@ -57,6 +57,7 @@ async def main():
 
     # Пользователь
     dp.include_router(reviews_handler.router)
+    dp.include_router(preparation_recovery_handler.router)
 
 
     await on_startup_notify(bot=bot)

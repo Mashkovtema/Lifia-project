@@ -53,7 +53,7 @@ async def select_challenge(data: list):
         btn = types.InlineKeyboardButton(text=challenge['name'], callback_data=f'select-challenge-to-delete_{challenge["id"]}')
         markup.inline_keyboard.append([btn])
 
-    btn_back = types.InlineKeyboardButton(text='Назад', callback_data='back-buttons-admin-challenges_week-delete', style='success')
+    btn_back = types.InlineKeyboardButton(text='Назад', callback_data='back-buttons-admin-challenges_week-delete', style='danger')
     markup.inline_keyboard.append([btn_back])
     return markup
 

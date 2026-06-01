@@ -80,10 +80,17 @@ class Reviews(Base):
 class Challenges(Base):
     __tablename__ = 'Challenges'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    category: Mapped[str] = mapped_column(String, default='---')
+    category: Mapped[str] = mapped_column(String, default='---') # Для беременных/Для родивших
     name: Mapped[str] = mapped_column(String, default='---')
     bonus_cnt: Mapped[int] = mapped_column(Integer, default='---')
     week: Mapped[int] = mapped_column(Integer, default='---')
+
+
+class UsersChallenges(Base):
+    __tablename__ = 'UsersChallenges'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, default=0)
+    task_id: Mapped[int] = mapped_column(BigInteger, default=0)
 
 
 
