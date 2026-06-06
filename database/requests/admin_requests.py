@@ -253,11 +253,13 @@ async def update_weeks_text(file_in_memory, type: str) -> None:
 
             for i in range(2, sheet.max_row + 1):
                 day_data = sheet[f'A{i}'].value
-                text_data = sheet[f'D{i}'].value
+                text_data = sheet[f'B{i}'].value
+                sovet = sheet[f'C{i}'].value
 
                 new_week_text_data = WeeksTextsMom(
                     day=day_data,
-                    text=text_data
+                    text=text_data,
+                    sovet=sovet
                 )
                 session.add(new_week_text_data)
 

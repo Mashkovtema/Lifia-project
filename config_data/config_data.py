@@ -8,6 +8,7 @@ class TgBot:
     ai_token: str
     money_token: int
     bot_username: str
+    yoomoney_receiver: str
 
 
 @dataclass
@@ -22,5 +23,6 @@ def load_config(path: str = None) -> Config:
                                admin_ids=env("ADMIN_IDS"),
                                ai_token=env("AI_TOKEN"),
                                money_token=env("MONEY_TOKEN"),
-                               bot_username=env("BOT_USERNAME")
+                               bot_username=env("BOT_USERNAME"),
+                               yoomoney_receiver=env("YOOMONEY_RECEIVER")
 ))

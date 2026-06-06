@@ -1,8 +1,6 @@
 from aiogram import types
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 import calendar
-import locale
 
 MONTHS_RU = {
     1: 'Январь', 2: 'Февраль', 3: 'Март', 4: 'Апрель',

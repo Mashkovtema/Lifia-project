@@ -155,7 +155,7 @@ async def select_date(callback: types.CallbackQuery, state: FSMContext):
 
         await callback.message.edit_text(text=text, reply_markup=markup)
         await state.update_data(week=week)
-        await state.update_data(day_cnt=day_cnt)
+        await state.update_data(days=day_cnt)
 
 
 @router.callback_query(F.data.startswith('select-mom-trouble-start_'))
