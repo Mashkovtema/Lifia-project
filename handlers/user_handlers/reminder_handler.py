@@ -429,6 +429,8 @@ async def select_remind_delete_user(callback: types.CallbackQuery, state: FSMCon
     """Выбор напоминания для удаления"""
     logging.info('select_remind_delete_user')
     index = int(str(callback.data).split('_')[1])
+
+
     state_data = await state.get_data()
     markup = await reminders_keyboard.delete_or_no_reminds(state_data['page'])
     remind_data = await user_requests.get_remind_by_index_and_category(state_data['category'], index)
